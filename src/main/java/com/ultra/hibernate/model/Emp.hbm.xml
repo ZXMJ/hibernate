@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.ultra.hibernate.model.Emp" table="EMP">
+
+		<id name="empId" type="java.lang.Integer">
+			<column name="EMP_ID" />
+			<generator class="native" />
+		</id>
+
+		<property name="empName" type="java.lang.String">
+			<column name="EMP_NAME" />
+		</property>
+
+		<property name="sal" type="float">
+			<column name="SAL" />
+		</property>
+
+		<many-to-one name="department" class="com.ultra.hibernate.model.Department">
+			<column name="DEPARTMENT_ID" />
+		</many-to-one>
+
+	</class>
+
+	<query name="getEmpByDeptId"><![CDATA[FROM Emp e WHERE e.sal > ? AND e.sal < ? AND e.department = ?]]></query>
+
+</hibernate-mapping>

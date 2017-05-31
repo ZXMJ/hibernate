@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.ultra.hibernate.model">
+	<class name="Module" table="MODULES">
+	
+		<id name="moduleId" type="java.lang.Integer">
+			<column name="MODULE_ID" />
+			<generator class="native" />
+		</id>
+		
+		<property name="moduleName" type="java.lang.String">
+			<column name="MODULE_NAME" />
+		</property>
+		
+		<property name="moduleType" type="java.lang.String">
+			<column name="MODULE_TYPE" />
+		</property>
+		<!--
+			many-to-one:多个Module对应一个News
+			name:News对象在Module中的属性名.
+			class:News对象的路径(hibernate-mapping标签package的属性值+class的属性值是News的全路径).
+			column:列名.
+		-->
+		<many-to-one name="news" class="News" column="NEWS_ID"></many-to-one>
+	</class>
+</hibernate-mapping>

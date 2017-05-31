@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class name="com.ultra.hibernate.model.Depart2" table="DEPARTS2">
+    
+        <id name="departId" type="java.lang.Integer">
+            <column name="DEPART_ID" />
+            <!-- 基于主键的外键关联 -->
+            <!-- 设置主键生成策略为 foreign,设置根据属性(property),属性值为Depart2中Manager2的属性名.-->
+            <generator class="foreign">
+            	<param name="property">manager</param>
+            </generator>
+        </id>
+        
+        <property name="departName" type="java.lang.String">
+            <column name="DEPART_NAME" />
+        </property>
+        <!-- 设置一对一关联关系,并设置constrained属性为true -->
+        <one-to-one name="manager" class="com.ultra.hibernate.model.Manager2" constrained="true"></one-to-one>
+        
+    </class>
+</hibernate-mapping>

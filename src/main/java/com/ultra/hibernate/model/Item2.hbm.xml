@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class name="com.ultra.hibernate.model.Item2" table="ITEMS2">
+    
+        <id name="itemId" type="java.lang.Integer">
+            <column name="ITEM_ID" />
+            <generator class="native" />
+        </id>
+        
+        <property name="itemName" type="java.lang.String">
+            <column name="ITEM_NAME" />
+        </property>
+        <!-- 
+        	双向的多对多关系
+        		两个set标签关联的是同一张新表(该表的字段是两个外键(关联的是多对多关系的两个对象对应表的主键),并由这两个外键组成联合主键).
+        		两个set标签的子标签的key和many-to-many的column的name属性值交叉等于.
+		-->
+        <!-- 要有一方设置inverse为true,否则报错 -->
+        <set name="products" table="ITEM2_PRODUCT2" inverse="true">
+            <key>
+                <column name="ITEM_ID" />
+            </key>
+            <many-to-many class="com.ultra.hibernate.model.Product2" column="PRODUCT_ID"/>
+        </set>
+        
+    </class>
+</hibernate-mapping>

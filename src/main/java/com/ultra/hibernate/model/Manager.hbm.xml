@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.ultra.hibernate.model.Manager" table="MANAGERS">
+
+		<id name="managerId" type="java.lang.Integer">
+			<column name="MANAGER_ID" />
+			<generator class="native" />
+		</id>
+
+		<property name="mangerName" type="java.lang.String">
+			<column name="MANGER_NAME" />
+		</property>
+		<!-- property-ref:manager外键关联depart的哪个属性 -->
+		<one-to-one name="depart" class="com.ultra.hibernate.model.Depart"
+			property-ref="manager"></one-to-one>
+
+	</class>
+</hibernate-mapping>

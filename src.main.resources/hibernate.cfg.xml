@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+		"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<property name="connection.username">root</property>
+		<property name="connection.password">fan123</property>
+		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="connection.url">jdbc:mysql:///hibernate?serverTimezone=UTC</property>
+		
+		<!-- hibernate基本配置 -->
+		<!-- hibernate使用的方言 -->
+		<property name="dialect">org.hibernate.dialect.MySQL57Dialect</property>
+		<!-- 数据库事务隔离级别 -->
+		<property name="connection.isolation">2</property>
+		<!-- 是否显示sql -->
+		<property name="show_sql">true</property>
+		<!-- 是否格式化sql -->
+		<property name="format_sql">true</property>
+		<!-- 
+			指定程序运行时在数据库自动生成表的策略
+			create:每次运行都会创建新表，所以之前的数据会被删除
+			create-drop:每次运行都会创建新表,使用完成后，并把表删除
+			update:每次运行更新表，若.hbm.xml文件和数据库对应的表结构不同，将会更新表结构，不会删除已有的行和列
+			validate:操作前会先检验.hbm.xml和表结构,若.hbm.xml和数据库对应的表结构不同会抛出异常。
+		-->
+		<property name="hbm2ddl.auto">update</property>
+		<!-- 删除对象后, 使其 OID 置为 null -->
+		<property name="hibernate.use_identifier_rollback">true</property>
+		
+		<!-- 查询时每次获取的记录数,越大越快但是越耗内存,越小越慢越省内存(100为宜) -->
+		<property name="hibernate.jdbc.fetch_size">100</property>
+		<!-- 批量操作时,每次执行的记录数(30为宜) -->
+		<property name="hibernate.jdbc.batch_size">30</property>
+		
+		<!-- c3p0数据库连接池 -->
+		<!-- 最大连接数 -->
+		<property name="hibernate.c3p0.max_size">10</property>
+		<!-- 最小连接数 -->
+		<property name="hibernate.c3p0.min_size">5</property>
+		<!-- 连接数不够时,每次增加的个数 -->
+		<property name="c3p0.acquire_increment">2</property>
+		<!-- 连接多久未使用时被回收 -->
+		<property name="c3p0.timeout">2000</property>
+		<!-- 多久检测一次连接未使用 -->
+		<property name="c3p0.idle_test_period">2000</property>
+		<!-- 最大的statement个数(Connection和statement是一对多的关系) -->
+		<property name="c3p0.max_statements">10</property>
+		
+		<!-- 开启hibernate二级缓存 -->
+		<property name="hibernate.cache.use_second_level_cache">true</property>
+		<!-- 配置使用ehcache -->
+		<property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
+		<!-- 使用二级缓存查询 -->
+		<property name="hibernate.cache.use_query_cache">true</property>
+		
+		<!-- 配置session的产生方式,与当前线程绑定 -->
+		<property name="hibernate.current_session_context_class">thread</property>
+		
+		<!-- 加载资源文件 -->
+		<!-- hibernate基本的增删改查、组件、单向的多对一测试-->
+		<!-- <mapping resource="com/ultra/hibernate/model/News.hbm.xml"/>
+		<mapping resource="com/ultra/hibernate/model/Module.hbm.xml"/> -->
+		<!-- hibernate双向的一对多和多对一测试 -->
+		<!-- <mapping resource="com/ultra/hibernate/model/School.hbm.xml"/>
+		<mapping resource="com/ultra/hibernate/model/Student.hbm.xml"/> -->
+		<!-- hibernate基于外键的一对一测试 -->
+		<!-- <mapping resource="com/ultra/hibernate/model/Depart.hbm.xml"/>
+		<mapping resource="com/ultra/hibernate/model/Manager.hbm.xml"/> -->
+		<!-- hibernate基于主键的一对一测试 -->
+		<!-- <mapping resource="com/ultra/hibernate/model/Depart2.hbm.xml"/>
+		<mapping resource="com/ultra/hibernate/model/Manager2.hbm.xml"/> -->
+		<!-- hibernate单向多对多测试 -->
+		<!-- <mapping resource="com/ultra/hibernate/model/Product.hbm.xml"/>
+		<mapping resource="com/ultra/hibernate/model/Item.hbm.xml"/> -->
+		<!-- hibernate双向多对多测试 -->
+		<!-- <mapping resource="com/ultra/hibernate/model/Product2.hbm.xml"/>
+		<mapping resource="com/ultra/hibernate/model/Item2.hbm.xml"/> -->
+		<!-- hibernate继承subclass测试 -->
+		<!-- <mapping resource="com/ultra/hibernate/model/Person.hbm.xml"/> -->
+		<!-- hibernate继承joined-subclass测试 -->
+		<!-- <mapping resource="com/ultra/hibernate/model/JoinedPerson.hbm.xml"/> -->
+		<!-- hibernate继承union-subclass测试 -->
+		<!-- <mapping resource="com/ultra/hibernate/model/UnionPerson.hbm.xml"/> -->
+		<!-- hibernateHQL、QBC、本地sql测试 -->
+		<mapping resource="com/ultra/hibernate/model/Emp.hbm.xml"/>
+		<mapping resource="com/ultra/hibernate/model/Department.hbm.xml"/>
+		
+		<!-- 配置使用二级缓存的对象 -->
+		<class-cache usage="read-write" class="com.ultra.hibernate.model.Emp"></class-cache>
+		<class-cache usage="read-write" class="com.ultra.hibernate.model.Department"></class-cache>
+		<!-- 配置使用二级缓存的集合 -->
+		<collection-cache usage="read-write" collection="com.ultra.hibernate.model.Department.emps"/>
+	</session-factory>
+</hibernate-configuration>

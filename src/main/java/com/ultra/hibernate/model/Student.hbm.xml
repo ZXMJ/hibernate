@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.ultra.hibernate.model.Student" table="STUDENTS">
+        <id name="studentId" type="java.lang.Integer">
+            <column name="STUDENT_ID" />
+            <generator class="native" />
+        </id>
+        <property name="studentName" type="java.lang.String">
+            <column name="STUDENT_NAME" />
+        </property>
+        <!--
+        	lazy:false不使用懒加载,proxy使用懒加载.
+         	fetch:
+         		select:根据id正常查询.
+				join:表示使用迫切左外连接的方式初始化School的属性,忽略 lazy 属性.(同时初始化Student对象和Student对象的School属性)
+        -->
+        <many-to-one name="school" class="com.ultra.hibernate.model.School" lazy="proxy" fetch="join">
+            <column name="SCHOOL_ID" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.ultra.hibernate.model.Person" table="JOINEDPERSONS">
+
+		<id name="id" type="java.lang.Integer">
+			<column name="ID" />
+			<generator class="native" />
+		</id>
+
+		<property name="name" type="java.lang.String">
+			<column name="NAME" />
+		</property>
+
+		<property name="age" type="int">
+			<column name="AGE" />
+		</property>
+
+		<joined-subclass name="com.ultra.hibernate.model.Teacher"
+			table="JOINEDTEACHERS">
+			
+			<key column="JOINEDTEACHER_ID"></key>
+			
+			<property name="subject" column="SUBJECT"></property>
+			
+		</joined-subclass>
+	</class>
+</hibernate-mapping>

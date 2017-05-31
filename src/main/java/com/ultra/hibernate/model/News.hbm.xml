@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<!-- hibernate-mapping标签: package:该配置文件使用的根包 -->
+<hibernate-mapping package="com.ultra.hibernate.model">
+
+	<!-- 
+		class标签: 
+			name:hibernate-mapping的package属性值加class的name属性值是class的全路径 
+			table:该model在数据库中对应的表名 dynamic-update:动态更新,只更新被修改的属性,默认为false 
+			dynamic-insert:动态插入,只插入不为空的属性,默认为false.
+			dynamic-update:动态更新,只更新修改的属性,默认为false.
+			select-before-update:更新之前查询,属性为未变化则不修改,变化时才执行sql,默认false.
+			lazy:懒加载,查询该对象时,是否使用懒加载,默认true,一般使用默认,只对session.load()方法有效.
+			
+			batch-size:???????????????????????
+	-->
+	<class name="News" table="NEWS" dynamic-update="true"
+		dynamic-insert="true" select-before-update="false" lazy="false">
+
+		<!-- id标签(主键): name:model的属性名 type:属性的类型 column:既可以作为子标签也可以作为属性,作为子标签有更多的设置. -->
+		<id name="id" type="java.lang.Integer">
+			<!-- column标签(列): name:数据库表的主键名称 -->
+			<column name="ID" />
+			<!-- 
+				generator:主键生成策略.
+					increment:自增(先查询最大值的id,加1,sql语句有id字段)(容易出现多线程问题,生产不会使用) 
+					identity:由数据库自动生成自增(sql语句无id字段),不适用于oracle,oracle不支持主键自增 hilo:由hibernate跟俊高低算法生成主键(sql语句有id字段) 
+					sequence:由数据库自动生成(sql语句无id字段) native:根据数据库自动选择主键生成策略 -->
+			<generator class="native" />
+		</id>
+
+		<!-- 
+			property标签(属性): 
+				name:model对象中的属性名. 
+				type:model对象属性的类型,或者数据库存储的类型.数据库类型时,是hibernate提供的类型,不是数据库提供的类型 
+				hibernate会根据实际类型和数据库类型匹配. 不指定type属性时,可以在column标签指定sql-type的属性值,来指定列类型. 
+				unique:唯一性约束. 
+				update:是否可修改. length:长度. not-null:是否可以为空. 
+				column:既可以作为子标签也可以作为属性,作为子标签有更多的设置.
+		-->
+		<property name="title" type="java.lang.String" unique="false"
+			update="true" length="200" not-null="true">
+			<column name="TITLE" />
+		</property>
+
+		<property name="author" type="java.lang.String">
+			<column name="AUTHOR" />
+		</property>
+
+		<!-- 日期类型: model属性的日期类型指定为java.util.Date类型.java.util.Date是java.sql.Date,java.sql.Time,java.sql.Timestamp 
+			的父类.可以转换成time、date、timestamp. -->
+		<property name="date">
+			<!-- <column name="DATE" sql-type="time"/> -->
+			<!-- <column name="DATE" sql-type="date"/> -->
+			<column name="DATE" sql-type="timestamp" />
+		</property>
+
+		<!-- 映射派生属性(有问题) -->
+		<property name="desc"
+			formula="(SELECT concat(author, ': ', title) FROM NEWS n WHERE n.id = id)"></property>
+
+		<!-- 映射大对象 -->
+		<!-- 若希望精确映射 SQL 类型, 可以使用 sql-type 属性. -->
+		<property name="content">
+			<column name="CONTENT" sql-type="mediumtext"></column>
+		</property>
+
+		<property name="image">
+			<column name="IMAGE" sql-type="mediumblob"></column>
+		</property>
+
+		<!-- 映射组成关系(Detail是News对象某些属性抽象出来的一个对象,并无表与之对应,称Detail是News的一个组件) -->
+		<component name="detail" class="Detail">
+			<property name="size" type="java.lang.Integer" column="SIZE"></property>
+			<property name="name" type="java.lang.String" column="NAME"></property>
+		</component>
+		
+	</class>
+</hibernate-mapping>

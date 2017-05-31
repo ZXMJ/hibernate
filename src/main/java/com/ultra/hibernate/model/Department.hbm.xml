@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.ultra.hibernate.model.Department" table="DEPARTMENT">
+
+		<id name="departmentId" type="java.lang.Integer">
+			<column name="DEPARTMENT_ID" />
+			<generator class="native" />
+		</id>
+
+		<property name="departName" type="java.lang.String">
+			<column name="DEPART_NAME" />
+		</property>
+
+		<set name="emps" table="EMP" inverse="false" lazy="true">
+			<key>
+				<column name="DEPARTMENT_ID" />
+			</key>
+			<one-to-many class="com.ultra.hibernate.model.Emp" />
+		</set>
+
+	</class>
+
+</hibernate-mapping>

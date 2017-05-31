@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.ultra.hibernate.model.School" table="SCHOOLS">
+        <id name="schoolId" type="java.lang.Integer">
+            <column name="SCHOOL_ID" />
+            <generator class="native" />
+        </id>
+        <property name="schoolName" type="java.lang.String">
+            <column name="SCHOOL_NAME" />
+        </property>
+        <!--
+        	set标签:
+				inverse:反转,false:主动维护table属性的表,true:不维护table属性的表
+				order-by:排序,值是table表的字段
+				lazy="true"
+				cascade:级联设置(了解)
+					all: 所有情况下均进行关联操作，即save-update和delete。
+				    none: 所有情况下均不进行关联操作。这是默认值。 
+				    save-update: 在执行save/update/saveOrUpdate时进行关联操作。 
+				    delete: 在执行delete 时进行关联操作。
+				    all-delete-orphan: 当一个节点在对象图中成为孤儿节点时，删除该节点。
+				          比如在一对多的关系中，School包含多个Student，当在对象关系中删除一个School时，此book即成为孤儿节点。
+		-->
+		<!--
+			多对一或者一对一(set标签的属性)
+				lazy(初始化Student集合时机):
+					false:不使用懒加载,true:使用懒加载,extra:增强懒加载(调用集合的size(),isEmpty(),contains()方法时
+					只执行相应的sql并不初始化集合,只有使用集合的对象属性时,才初始化集合).
+				batch-size:每次查询Student集合的的个数,即School对象的个数.默认1.
+				fetch(初始化Student集合的方式):
+					select:通过正常的方式来初始化 set集合.
+					subclass:通过子查询的方式来初始化所有的 set集合.此时batch-size属性失效.
+					join:使用迫切左外连接(使用左外链接进行查询, 且把集合属性进行初始化)的方式初始化集合.此时lazy属性失效.
+					HQL查询时忽略 fetch=join 的取值??????????????????????
+		-->
+        <set name="students" table="STUDENTS" inverse="true" order-by="STUDENT_NAME DESC" lazy="false" batch-size="2" fetch="join">
+            <key>
+                <column name="SCHOOL_ID" />
+            </key>
+            <one-to-many class="com.ultra.hibernate.model.Student" />
+        </set>
+    </class>
+</hibernate-mapping>

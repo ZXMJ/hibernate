@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class name="com.ultra.hibernate.model.Manager2" table="MANAGERS2">
+    
+        <id name="managerId" type="java.lang.Integer">
+            <column name="MANAGER_ID" />
+            <generator class="native" />
+        </id>
+        
+        <property name="mangerName" type="java.lang.String">
+            <column name="MANGER_NAME" />
+        </property>
+        
+        <one-to-one name="depart" class="com.ultra.hibernate.model.Depart2"></one-to-one>
+        
+    </class>
+</hibernate-mapping>

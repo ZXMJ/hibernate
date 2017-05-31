@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.ultra.hibernate.model.Depart" table="DEPARTS">
+
+		<id name="departId" type="java.lang.Integer">
+			<column name="DEPART_ID" />
+			<generator class="native" />
+		</id>
+
+		<property name="departName" type="java.lang.String">
+			<column name="DEPART_NAME" />
+		</property>
+
+		<!-- many-to-one标签设置外键,并设置unique属性为true,约束为一对一 -->
+		<many-to-one name="manager" class="com.ultra.hibernate.model.Manager"
+			column="MANAGER_ID" unique="true"></many-to-one>
+		
+	</class>
+</hibernate-mapping>
